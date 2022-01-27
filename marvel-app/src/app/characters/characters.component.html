@@ -2,27 +2,27 @@
   <h2>Filter your favourite heroes by name</h2>
   <mat-form-field class="example-chip-list" appearance="fill">
     <mat-label>Favorite heroes</mat-label>
-    <mat-chip-list #chipList aria-label="Fruit selection">
+    <mat-chip-list #chipList aria-label="Hero selection">
       <mat-chip
-        *ngFor="let fruit of fruits"
-        (removed)="remove(fruit)">
-        {{fruit}}
+        *ngFor="let hero of heroes"
+        (removed)="remove(hero)">
+        {{hero}}
         <button matChipRemove>
           <mat-icon>cancel</mat-icon>
         </button>
       </mat-chip>
       <input
-        placeholder="Search your favourite heroe"
-        #fruitInput
-        [formControl]="fruitCtrl"
+        placeholder="Search your favourite hero"
+        #heroInput
+        [formControl]="heroCtrl"
         [matAutocomplete]="auto"
         [matChipInputFor]="chipList"
         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
         (matChipInputTokenEnd)="add($event)">
     </mat-chip-list>
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-      <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
-        {{fruit}}
+      <mat-option *ngFor="let hero of filteredHeroes | async" [value]="hero">
+        {{hero}}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>

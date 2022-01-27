@@ -18,19 +18,19 @@ export class CharactersComponent implements OnInit {
   
   elementData: any[] = [];
   displayedColumns!: string[];
-  allFruits!: string[];
+  allHeroesNames!: string[];
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruitCtrl = new FormControl();
-  filteredFruits: Observable<string[]>;
-  fruits: string[] = ['Ahab'];
+  heroCtrl = new FormControl();
+  filteredHeroes: Observable<string[]>;
+  heroes: string[] = ['Ahab'];
 
-  @ViewChild('fruitInput') fruitInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('heroInput') heroInput!: ElementRef<HTMLInputElement>;
 
   constructor(public MarvelService: MarvelService) {
-    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+    this.filteredHeroes = this.heroCtrl.valueChanges.pipe(
       startWith(null),
-      map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
+      map((hero: string | null) => (hero ? this._filter(hero) : this.allHeroesNames.slice())),
     );
   }
 
@@ -39,41 +39,41 @@ export class CharactersComponent implements OnInit {
       this.elementData = data      
     })
     this.displayedColumns = Object.keys(this.elementData[0]);
-    this.allFruits = getFields(this.elementData, "nameLabel");
+    this.allHeroesNames = getFields(this.elementData, "nameLabel");
   }
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
-    // Add our fruit
+    // Add our hero
     if (value) {
-      this.fruits.push(value);
+      this.heroes.push(value);
     }
 
     // Clear the input value
     event.chipInput!.clear();
 
-    this.fruitCtrl.setValue(null);
+    this.heroCtrl.setValue(null);
   }
 
-  remove(fruit: string): void {
-    const index = this.fruits.indexOf(fruit);
+  remove(hero: string): void {
+    const index = this.heroes.indexOf(hero);
 
     if (index >= 0) {
-      this.fruits.splice(index, 1);
+      this.heroes.splice(index, 1);
     }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.fruits.push(event.option.viewValue);
-    this.fruitInput.nativeElement.value = '';
-    this.fruitCtrl.setValue(null);
+    this.heroes.push(event.option.viewValue);
+    this.heroInput.nativeElement.value = '';
+    this.heroCtrl.setValue(null);
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.allFruits.filter(fruit => fruit.toLowerCase().includes(filterValue));
+    return this.allHeroesNames.filter(hero => hero.toLowerCase().includes(filterValue));
   }
 
     sortData(sort: Sort) {
