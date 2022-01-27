@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { CharactersComponent } from './characters/characters.component';
+import { MarvelService } from './marvel.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
@@ -14,7 +15,7 @@ import {MatSortModule} from '@angular/material/sort';
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    CharactersComponent
+    CharactersComponent,
   ],
   imports: [
     BrowserModule,
@@ -22,7 +23,7 @@ import {MatSortModule} from '@angular/material/sort';
     MatTableModule,
     MatSortModule
   ],
-  providers: [],
+  providers: [ MarvelService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

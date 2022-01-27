@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Sort } from '@angular/material/sort';
-import characters from '../../assets/wikipedia_marvel_data.json';
-import {MarvelCharacterModel} from './characters.model'
+import {MarvelCharacterModel} from '../marvel.model'
+import { MarvelService } from '../marvel.service'
+import { Observable, of } from 'rxjs';
 
 
 
@@ -12,13 +13,15 @@ import {MarvelCharacterModel} from './characters.model'
 })
 export class CharactersComponent implements OnInit {
   
-  elementData!: MarvelCharacterModel[];
+  elementData: any[] = [];
   displayedColumns!: string[]
 
-  constructor() { }
+  constructor(public MarvelService: MarvelService) {}
 
   ngOnInit(): void {
-    this.elementData = characters;
+    this.MarvelService.getAll().subscribe(data=> {
+      this.elementData = data      
+    })
     this.displayedColumns = Object.keys(this.elementData[0]);
   }
 
