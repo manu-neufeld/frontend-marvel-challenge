@@ -1,4 +1,37 @@
-<table matSort (matSortChange)="sortData($event)">
+<div class="container">
+  <h2>Filter your favourite heroes by name</h2>
+  <mat-form-field class="example-chip-list" appearance="fill">
+    <mat-label>Favorite heroes</mat-label>
+    <mat-chip-list #chipList aria-label="Fruit selection">
+      <mat-chip
+        *ngFor="let fruit of fruits"
+        (removed)="remove(fruit)">
+        {{fruit}}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+      <input
+        placeholder="Search your favourite heroe"
+        #fruitInput
+        [formControl]="fruitCtrl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+        {{fruit}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>
+
+
+<div class="container">
+  <h2>Enjoy with all Marvel's heroes</h2>
+  <table matSort (matSortChange)="sortData($event)">
     <tr>
       <th mat-sort-header="citizenshipLabel">Citizen</th>
       <th mat-sort-header="creatorLabel">Creator</th>
@@ -20,6 +53,8 @@
       <td>{{element.skillsLabel}}</td>
     </tr>
   </table>
+</div>
+
   
   
   

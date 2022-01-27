@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit  } from '@angular/core';
 import { Sort } from '@angular/material/sort';
-import {MarvelCharacterModel} from '../marvel.model'
 import { MarvelService } from '../marvel.service'
-import { Observable, of } from 'rxjs';
-
+import { Observable } from 'rxjs';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {FormControl} from '@angular/forms';
+import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
+import {MatChipInputEvent} from '@angular/material/chips';
+import {map, startWith} from 'rxjs/operators';
 
 
 @Component({
@@ -14,15 +17,63 @@ import { Observable, of } from 'rxjs';
 export class CharactersComponent implements OnInit {
   
   elementData: any[] = [];
-  displayedColumns!: string[]
+  displayedColumns!: string[];
+  allFruits!: string[];
 
-  constructor(public MarvelService: MarvelService) {}
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  fruitCtrl = new FormControl();
+  filteredFruits: Observable<string[]>;
+  fruits: string[] = ['Ahab'];
+
+  @ViewChild('fruitInput') fruitInput!: ElementRef<HTMLInputElement>;
+
+  constructor(public MarvelService: MarvelService) {
+    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+      startWith(null),
+      map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
+    );
+  }
 
   ngOnInit(): void {
     this.MarvelService.getAll().subscribe(data=> {
       this.elementData = data      
     })
     this.displayedColumns = Object.keys(this.elementData[0]);
+    this.allFruits = getFields(this.elementData, "nameLabel");
+  }
+
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    // Add our fruit
+    if (value) {
+      this.fruits.push(value);
+    }
+
+    // Clear the input value
+    event.chipInput!.clear();
+
+    this.fruitCtrl.setValue(null);
+  }
+
+  remove(fruit: string): void {
+    const index = this.fruits.indexOf(fruit);
+
+    if (index >= 0) {
+      this.fruits.splice(index, 1);
+    }
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.fruits.push(event.option.viewValue);
+    this.fruitInput.nativeElement.value = '';
+    this.fruitCtrl.setValue(null);
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.allFruits.filter(fruit => fruit.toLowerCase().includes(filterValue));
   }
 
     sortData(sort: Sort) {
@@ -57,4 +108,11 @@ export class CharactersComponent implements OnInit {
 }
 function compare(a: string, b: string, isAsc: boolean) {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+}
+
+function getFields(input: any[], field: string) {
+  var output = [];
+  for (var i=0; i < input.length ; ++i)
+      output.push(input[i][field]);
+  return output;
 }
