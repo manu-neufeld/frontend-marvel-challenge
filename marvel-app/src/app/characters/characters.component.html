@@ -4,7 +4,7 @@
     <mat-label>Favorite heroes</mat-label>
     <mat-chip-list #chipList aria-label="Hero selection">
       <mat-chip
-        *ngFor="let hero of heroes"
+        *ngFor="let hero of selectedHeroes"
         (removed)="remove(hero)">
         {{hero}}
         <button matChipRemove>
@@ -43,7 +43,7 @@
 
     </tr>
   
-    <tr *ngFor="let element of elementData">
+    <tr *ngFor="let element of allHeroes">
       <td>{{element.citizenshipLabel}}</td>
       <td>{{element.creatorLabel}}</td>
       <td>{{element.genderLabel}}</td>
