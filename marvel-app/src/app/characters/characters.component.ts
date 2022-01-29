@@ -22,7 +22,7 @@ export class CharactersComponent implements OnInit {
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
   heroCtrl = new FormControl();
-  selectableHeroes: Observable<string[]>;
+  selectableHeroes: Subject<string[]> = new Subject();
   dropDownNames!: string[]
   selectedHeroes: string[] = [];
 
@@ -30,13 +30,7 @@ export class CharactersComponent implements OnInit {
 
   @ViewChild('heroInput') heroInput!: ElementRef<HTMLInputElement>;
 
-  constructor(
-    public MarvelService: MarvelService,) {
-    this.selectableHeroes = this.heroCtrl.valueChanges.pipe(
-      startWith(null),
-      map((hero: string | null) => (hero ? this.filter(hero) : this.dropDownNames.slice())),
-    );
-  }
+  constructor(public MarvelService: MarvelService) {}
 
   ngOnInit(): void {
     this.MarvelService.getAll().subscribe(data=> {
@@ -46,6 +40,11 @@ export class CharactersComponent implements OnInit {
     this.displayedColumns = Object.keys(this.allHeroes[0]);
     this.allHeroesNames = getFields(this.allHeroes, "nameLabel");
     this.dropDownNames = this.allHeroesNames;
+    
+    this.heroCtrl.valueChanges.pipe(
+      startWith(null),
+      map((hero: string | null) => (hero ? this.filter(hero) : this.dropDownNames.slice())),
+    ).subscribe(this.selectableHeroes);
   }
 
   remove(hero: string): void {
@@ -61,6 +60,9 @@ export class CharactersComponent implements OnInit {
     } else if (length = 1) {
       this.filteredHeroes = this.allHeroes
     }
+    this.dropDownNames.push(hero);
+    this.dropDownNames = this.dropDownNames.sort();
+    this.selectableHeroes.next(this.dropDownNames);
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
@@ -81,6 +83,7 @@ export class CharactersComponent implements OnInit {
     // Remove name dropbox list
     let nameIndex = this.dropDownNames.indexOf(event.option.viewValue);
     this.dropDownNames.splice(nameIndex, 1);
+    this.selectableHeroes.next(this.dropDownNames);
   }
 
   filter(value: string): string[] {
