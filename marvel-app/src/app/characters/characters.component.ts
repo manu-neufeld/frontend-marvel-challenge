@@ -7,6 +7,8 @@ import {FormControl} from '@angular/forms';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {map, startWith} from 'rxjs/operators';
 import { MarvelCharacterModel } from '../marvel.model';
+import {MatDialog} from '@angular/material/dialog'
+import { ModalComponent } from '../modal/modal.component';
 
 
 @Component({
@@ -30,7 +32,9 @@ export class CharactersComponent implements OnInit {
 
   @ViewChild('heroInput') heroInput!: ElementRef<HTMLInputElement>;
 
-  constructor(public MarvelService: MarvelService) {}
+  constructor(
+    public MarvelService: MarvelService,
+    public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.MarvelService.getAll().subscribe(data=> {
@@ -45,6 +49,10 @@ export class CharactersComponent implements OnInit {
       startWith(null),
       map((hero: string | null) => (hero ? this.filter(hero) : this.dropDownNames.slice())),
     ).subscribe(this.selectableHeroes);
+  }
+
+  openDialog() {
+    this.dialog.open(ModalComponent);
   }
 
   remove(hero: string): void {

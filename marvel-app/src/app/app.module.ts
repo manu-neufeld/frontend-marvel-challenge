@@ -16,6 +16,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ModalComponent } from './modal/modal.component';
+
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -24,6 +27,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     HeaderComponent,
     FooterComponent,
     CharactersComponent,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,9 +39,15 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatFormFieldModule,
     MatChipsModule,
     MatIconModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatDialogModule,
   ],
-  providers: [ MarvelService ],
+  providers: [
+    {
+      provide: MatDialogRef,
+      useValue: {}
+    },
+    MarvelService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
