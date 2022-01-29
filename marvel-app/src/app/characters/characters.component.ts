@@ -1,12 +1,12 @@
-import { Component, OnInit, ElementRef, ViewChild, AfterViewInit  } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild  } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { MarvelService } from '../marvel.service'
-import { Observable } from 'rxjs';
+import { Observable, Subject  } from 'rxjs';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {FormControl} from '@angular/forms';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
-import {MatChipInputEvent} from '@angular/material/chips';
 import {map, startWith} from 'rxjs/operators';
+import { MarvelCharacterModel } from '../marvel.model';
 
 
 @Component({
@@ -16,44 +16,36 @@ import {map, startWith} from 'rxjs/operators';
 })
 export class CharactersComponent implements OnInit {
   
-  allHeroes: any[] = [];
+  allHeroes: MarvelCharacterModel[] = [];
   displayedColumns!: string[];
   allHeroesNames!: string[];
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
   heroCtrl = new FormControl();
-  filteredHeroes: Observable<string[]>;
+  selectableHeroes: Observable<string[]>;
+  dropDownNames!: string[]
   selectedHeroes: string[] = [];
+
+  filteredHeroes: MarvelCharacterModel[] = [];
 
   @ViewChild('heroInput') heroInput!: ElementRef<HTMLInputElement>;
 
-  constructor(public MarvelService: MarvelService) {
-    this.filteredHeroes = this.heroCtrl.valueChanges.pipe(
+  constructor(
+    public MarvelService: MarvelService,) {
+    this.selectableHeroes = this.heroCtrl.valueChanges.pipe(
       startWith(null),
-      map((hero: string | null) => (hero ? this.filter(hero) : this.allHeroesNames.slice())),
+      map((hero: string | null) => (hero ? this.filter(hero) : this.dropDownNames.slice())),
     );
   }
 
   ngOnInit(): void {
     this.MarvelService.getAll().subscribe(data=> {
       this.allHeroes = data;
+      this.filteredHeroes = this.allHeroes;
     })
     this.displayedColumns = Object.keys(this.allHeroes[0]);
     this.allHeroesNames = getFields(this.allHeroes, "nameLabel");
-  }
-
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-
-    // Add our hero
-    if (value) {
-      this.selectedHeroes.push(value);
-    }
-
-    // Clear the input value
-    event.chipInput!.clear();
-
-    this.heroCtrl.setValue(null);
+    this.dropDownNames = this.allHeroesNames;
   }
 
   remove(hero: string): void {
@@ -61,12 +53,34 @@ export class CharactersComponent implements OnInit {
     if (index >= 0) {
       this.selectedHeroes.splice(index, 1);
     }
+
+    //filter the table with the hero removed
+    let length = this.filteredHeroes.length;
+    if (length > 1) {
+      this.filteredHeroes.splice(this.filteredHeroes.findIndex(item => item.nameLabel === hero), 1)
+    } else if (length = 1) {
+      this.filteredHeroes = this.allHeroes
+    }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
+    // Filter the table with the hero selected
+    if (this.selectedHeroes.length == 0) {
+      this.filteredHeroes = [];
+    }
     this.selectedHeroes.push(event.option.viewValue);
+    let i = this.selectedHeroes.length -1;
+    let lastSelected = this.selectedHeroes[i];
+    const [first] = this.allHeroes.filter(hero => hero.nameLabel === lastSelected);
+    this.filteredHeroes.push(first);
+
+    // Clean autocomplete value
     this.heroInput.nativeElement.value = '';
     this.heroCtrl.setValue(null);
+
+    // Remove name dropbox list
+    let nameIndex = this.dropDownNames.indexOf(event.option.viewValue);
+    this.dropDownNames.splice(nameIndex, 1);
   }
 
   filter(value: string): string[] {

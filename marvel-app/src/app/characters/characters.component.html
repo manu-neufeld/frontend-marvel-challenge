@@ -17,11 +17,10 @@
         [formControl]="heroCtrl"
         [matAutocomplete]="auto"
         [matChipInputFor]="chipList"
-        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        (matChipInputTokenEnd)="add($event)">
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
     </mat-chip-list>
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-      <mat-option *ngFor="let hero of filteredHeroes | async" [value]="hero">
+      <mat-option *ngFor="let hero of selectableHeroes | async" [value]="hero">
         {{hero}}
       </mat-option>
     </mat-autocomplete>
@@ -43,7 +42,7 @@
 
     </tr>
   
-    <tr *ngFor="let element of allHeroes">
+    <tr *ngFor="let element of filteredHeroes">
       <td>{{element.citizenshipLabel}}</td>
       <td>{{element.creatorLabel}}</td>
       <td>{{element.genderLabel}}</td>
