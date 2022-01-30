@@ -1,7 +1,6 @@
 <div class="container">
-  <h3>Filter your favourite heroes by name</h3>
-  <mat-form-field class="example-chip-list" appearance="fill">
-    <mat-label>Favorite heroes</mat-label>
+  <mat-form-field class="chip-list" appearance="fill">
+    <mat-label>Search your favorite hero</mat-label>
     <mat-chip-list #chipList aria-label="Hero selection">
       <mat-chip
         *ngFor="let hero of selectedHeroes"
@@ -12,7 +11,6 @@
         </button>
       </mat-chip>
       <input
-        placeholder="Search your favourite hero"
         #heroInput
         [formControl]="heroCtrl"
         [matAutocomplete]="auto"

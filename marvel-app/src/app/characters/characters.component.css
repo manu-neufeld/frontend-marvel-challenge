@@ -5,6 +5,11 @@
   align-items: center;
 }
 
+.chip-list{
+  background-color: #4ba3c3;
+  border-radius: 5%;
+}
+
 .table-data {
   text-align: center;
 }
@@ -14,11 +19,11 @@
 }
 
 .add-btn{
-  background-color: #f34213;
+  background-color: #011638;
 }
 
 .show-btn {
-  background-color: #fcba04;
+  background-color: #4ba3c3;
 }
 
 .delete-btn{
