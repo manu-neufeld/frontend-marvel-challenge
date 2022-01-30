@@ -51,7 +51,8 @@ export class CharactersComponent implements OnInit {
     ).subscribe(this.selectableHeroes);
   }
 
-  openDialog() {
+  openDialog(heroName: string) {
+    console.log(heroName);
     this.dialog.open(ModalComponent);
   }
 
@@ -100,12 +101,12 @@ export class CharactersComponent implements OnInit {
   }
 
   sortData(sort: Sort) {
-    const data = this.allHeroes.slice();
+    const data = this.filteredHeroes.slice();
     if (!sort.active || sort.direction === '') {
-      this.allHeroes = data;
+      this.filteredHeroes = data;
       return;
     }
-    this.allHeroes = data.sort((a, b) => {
+    this.filteredHeroes = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
         case 'citizenshipLabel':

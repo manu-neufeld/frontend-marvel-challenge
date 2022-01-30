@@ -50,9 +50,7 @@
       <td>{{element.nameLabel}}</td>
       <td>{{element.occupationLabel}}</td>
       <td>{{element.skillsLabel}}</td>
+      <button (click)="openDialog(element.nameLabel)">Show</button>
     </tr>
   </table>
 </div>
-
-
-<button mat-button (click)="openDialog()">Launch dialog</button>
