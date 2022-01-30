@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>Filter your favourite heroes by name</h2>
+  <h3>Filter your favourite heroes by name</h3>
   <mat-form-field class="example-chip-list" appearance="fill">
     <mat-label>Favorite heroes</mat-label>
     <mat-chip-list #chipList aria-label="Hero selection">
@@ -29,19 +29,23 @@
 
 
 <div class="container">
-  <h2>Enjoy with all Marvel's heroes</h2>
-  <table matSort (matSortChange)="sortData($event)">
+  <h3 class="title">Enjoy with all Marvel's heroes</h3>
+  <table class="table" matSort (matSortChange)="sortData($event)">
     <tr>
-      <th mat-sort-header="nameLabel">Name</th>
-      <th mat-sort-header="citizenshipLabel">Citizen</th>
-      <th mat-sort-header="creatorLabel">Creator</th>
+      <th class="table-header" mat-sort-header="nameLabel">Name</th>
+      <th class="table-header" mat-sort-header="citizenshipLabel">Citizen</th>
+      <th class="table-header" mat-sort-header="creatorLabel">Creator</th>
+      <th></th>
+      <th></th>
+      <button mat-flat-button class="add-btn" (click)="addHero">Add</button>
     </tr>
   
     <tr *ngFor="let element of filteredHeroes">
-      <td>{{element.nameLabel}}</td>
-      <td>{{element.citizenshipLabel}}</td>
-      <td>{{element.creatorLabel}}</td>
-      <button (click)="openDialog(element.nameLabel)">Show</button>
+      <td class="table-data">{{element.nameLabel}}</td>
+      <td class="table-data">{{element.citizenshipLabel}}</td>
+      <td class="table-data">{{element.creatorLabel}}</td>
+      <button class="button show-btn" mat-flat-button color="warn" (click)="showMore(element.nameLabel)">Show</button>
+      <button class="button delete-btn" mat-flat-button color="warn" (click)="deleteHero(element.nameLabel)">Delete</button>
     </tr>
   </table>
 </div>

@@ -1,14 +1,15 @@
-<mat-card class="example-card">
-  <mat-card-title>Name: {{data.nameLabel}}</mat-card-title>
-  <mat-card-subtitle>Citizen: {{data.citizenshipLabel}}</mat-card-subtitle>
-  <mat-card-content>
+<div class="container">
+  <div class="container-close" mat-dialog-close>&times;</div>
+  <img
+    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLdECe714bqRgNwnHendywb--bT-ltLGrBFA&usqp=CAU"
+    alt="image">
+  <div class="container-text">
+    <h2>Name: {{data.nameLabel}}</h2>
+    <p>Citizen: {{data.citizenshipLabel}}</p>
     <p>Creator: {{data.creatorLabel}}</p>
     <p>Gender: {{data.genderLabel}}</p>
     <p>Member of: {{data.memberOfLabel}}</p>
     <p>Occupation: {{data.occupationLabel}}</p>
     <p>Skills: {{data.skillsLabel}}</p>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-button mat-dialog-close>Close</button>
-  </mat-card-actions>
-</mat-card>
+  </div>
+</div>

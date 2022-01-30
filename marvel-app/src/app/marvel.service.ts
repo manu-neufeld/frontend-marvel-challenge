@@ -10,7 +10,7 @@ export class MarvelService {
         this.elementData = characters;
     }
 
-    getAll() : Observable<MarvelCharacterModel[]> {
+    getAll(): Observable<MarvelCharacterModel[]> {
         return of(this.elementData);
     };
 
@@ -23,5 +23,16 @@ export class MarvelService {
             }
         };
         return hero;
+    }
+
+    addHero(hero: MarvelCharacterModel) {
+        this.elementData.push(hero);
+        return this.elementData
+    }
+
+    deleteHero(hero: string) {
+        this.elementData.splice(this.elementData.findIndex(item => item.nameLabel === hero), 1)
+        return this.elementData
+        
     }
 }

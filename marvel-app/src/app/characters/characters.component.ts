@@ -51,10 +51,21 @@ export class CharactersComponent implements OnInit {
     ).subscribe(this.selectableHeroes);
   }
 
-  openDialog(heroName: string) {
+  showMore(heroName: string) {
     this.dialog.open(ModalComponent, {
       data: this.MarvelService.getByName(heroName)
     });
+  }
+
+  addHero() {
+    this.dialog.open(ModalComponent), {
+      
+    }
+  }
+
+  deleteHero(heroName: string){
+    this.allHeroes = this.MarvelService.deleteHero(heroName);
+    this.filteredHeroes = this.allHeroes;
   }
 
   remove(hero: string): void {

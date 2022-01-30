@@ -1,12 +1,26 @@
 .container{
-  margin: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
-.table {
-    width: 100%;
-  }
+.table-data {
+  text-align: center;
+}
 
-.mat-sort-header-container {
-  align-items: center;
+.button {
+  margin-right: 4px;
+}
+
+.add-btn{
+  background-color: #f34213;
+}
+
+.show-btn {
+  background-color: #fcba04;
+}
+
+.delete-btn{
+  background-color: #931621;
 }

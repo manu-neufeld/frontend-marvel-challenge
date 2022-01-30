@@ -20,6 +20,7 @@ import { ModalComponent } from './modal/modal.component';
 
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
 
 
 
@@ -44,6 +45,7 @@ import {MatCardModule} from '@angular/material/card';
     MatAutocompleteModule,
     MatDialogModule,
     MatCardModule,
+    MatButtonModule,
   ],
   providers: [
     {
