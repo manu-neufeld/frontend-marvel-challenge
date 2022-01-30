@@ -32,24 +32,15 @@
   <h2>Enjoy with all Marvel's heroes</h2>
   <table matSort (matSortChange)="sortData($event)">
     <tr>
+      <th mat-sort-header="nameLabel">Name</th>
       <th mat-sort-header="citizenshipLabel">Citizen</th>
       <th mat-sort-header="creatorLabel">Creator</th>
-      <th mat-sort-header="genderLabel">Gender</th>
-      <th mat-sort-header="memberOfLabel">Member</th>
-      <th mat-sort-header="nameLabel">Name</th>
-      <th mat-sort-header="occupationLabel">Occupation</th>
-      <th mat-sort-header="skillsLabel">Skills</th>
-
     </tr>
   
     <tr *ngFor="let element of filteredHeroes">
+      <td>{{element.nameLabel}}</td>
       <td>{{element.citizenshipLabel}}</td>
       <td>{{element.creatorLabel}}</td>
-      <td>{{element.genderLabel}}</td>
-      <td>{{element.memberOfLabel}}</td>
-      <td>{{element.nameLabel}}</td>
-      <td>{{element.occupationLabel}}</td>
-      <td>{{element.skillsLabel}}</td>
       <button (click)="openDialog(element.nameLabel)">Show</button>
     </tr>
   </table>

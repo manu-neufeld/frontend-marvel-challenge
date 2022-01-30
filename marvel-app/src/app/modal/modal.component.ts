@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { CharactersComponent } from '../characters/characters.component';
+import { MarvelCharacterModel } from '../marvel.model';
+import { MarvelService } from '../marvel.service';
 
 @Component({
   selector: 'app-modal',
@@ -7,9 +11,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ModalComponent implements OnInit {
 
-  constructor() { }
+  nameClicked!: string;
 
-  ngOnInit(): void {
-  }
+  constructor(
+    public MarvelService: MarvelService,
+    @Inject(MAT_DIALOG_DATA) public data: MarvelCharacterModel) { }
 
+  ngOnInit(): void {};
 }

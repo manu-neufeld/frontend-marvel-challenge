@@ -19,6 +19,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ModalComponent } from './modal/modal.component';
 
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {MatCardModule} from '@angular/material/card';
+
 
 
 @NgModule({
@@ -41,6 +43,7 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
     MatIconModule,
     MatAutocompleteModule,
     MatDialogModule,
+    MatCardModule,
   ],
   providers: [
     {

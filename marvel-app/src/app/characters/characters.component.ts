@@ -52,8 +52,9 @@ export class CharactersComponent implements OnInit {
   }
 
   openDialog(heroName: string) {
-    console.log(heroName);
-    this.dialog.open(ModalComponent);
+    this.dialog.open(ModalComponent, {
+      data: this.MarvelService.getByName(heroName)
+    });
   }
 
   remove(hero: string): void {
